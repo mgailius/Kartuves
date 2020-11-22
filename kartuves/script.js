@@ -1,16 +1,28 @@
 const gameData = {
     currentWord: "darbas",
     progress: 0,
+    lives: 5,
+    guessed: 0,
     possibleWords: ["obuolys", "bitas", "saldainis", "monitorius", "sofa"],
-    chooseRandomWord: function() {
+    chooseRandomWord() {
         const randomIndex = Math.floor(Math.random() * this.possibleWords.length);
         this.currentWord = this.possibleWords[randomIndex];
+    },
+    loseLife() {
+        this.lives--;
+    },
+    reset() {
+        this.lives = 5;
+        this.progress = 0;
+        this.guessed = 0;
     }
 };
 
 const UI = {
     wordElement: document.querySelector(".word"),
-    progressBar: document.querySelector(".bar")
+    progressBar: document.querySelector(".bar"), 
+    lives: document.querySelector(".lives"),
+    guessedWords: document.querySelector(".guessedWords")
 }
 
 const sounds = {
@@ -32,7 +44,13 @@ function drawProgressBar() {
     UI.progressBar.style.width = `${gameData.progress}%`;
 }
 
+function updatePlayerInfo() {
+    UI.guessedWords.innerHTML = `${gameData.guessed} / ${gameData.possibleWords.length}`;
+    UI.lives.innerHTML = `${gameData.lives}`
+}
+
 function initGame() {
+    updatePlayerInfo();
     renderNewWord();
     drawProgressBar();
 }
@@ -64,7 +82,7 @@ document.addEventListener("keydown", (e) => {
     if (letterFound === false) {
         sounds.clickSound.play();
         console.log("Pridedame žmogui baudos taškų!");
-        addProgress(15);
+        addProgress(10);
     }
 
     checkLoseCondition();
@@ -75,8 +93,15 @@ function checkLoseCondition() {
     if (gameData.progress >= 100) {
         sounds.wrongWord.play();
         gameData.progress = 0;
-        renderNewWord();
-        drawProgressBar();
+        gameData.lives--;
+        if(gameData.lives == 0) {
+            gameData.reset();
+            initGame();
+        } else {
+            updatePlayerInfo()
+            renderNewWord();
+            drawProgressBar();
+        }
     }
 }
 
@@ -88,21 +113,20 @@ function checkWinCondition() {
     }
     sounds.correctWord.play();
     gameData.progress = 0;
-    renderNewWord();
-    drawProgressBar();
-
-    console.log("Žodis atspėtas!");
-    // Įdėjau papildomą logiką naujo žodžio sugeneravimui
-    // Dar viena eilutė
+    gameData.guessed++;
+    if(gameData.guessed == gameData.possibleWords.length) {
+        gameData.reset();
+        initGame();
+    } else {
+        updatePlayerInfo()
+        renderNewWord();
+        drawProgressBar();
+    }
 }
 
 function addProgress(progressAmount) {
     gameData.progress += progressAmount;
-
-    // if (gameData.progress > 100)
-    //     gameData.progress = 100;
     gameData.progress = Math.min(100, gameData.progress);
-
     drawProgressBar();
 }
 
