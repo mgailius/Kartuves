@@ -15,7 +15,9 @@ const UI = {
 
 const sounds = {
     clickSound: new Audio('sounds/clickSound.wav'),
-    correctSound: new Audio('sounds/correctSound.mp3')
+    correctLetter: new Audio('sounds/correctLetter.mp3'),
+    wrongWord: new Audio('sounds/wrongWord.wav'),
+    correctWord: new Audio('sounds/correctWord.wav')
 }
 
 function generateLetters() {
@@ -51,7 +53,7 @@ document.addEventListener("keydown", (e) => {
 
         // Jei žmogus atspėjo raidę
         if (letter === wordLetter) {
-            sounds.correctSound.play();
+            sounds.correctLetter.play();
             console.log(`Žaidėjas atspėjo raidę ${i} pozicijoje`);
             UI.wordElement.childNodes[i].innerHTML = letter; 
             letterFound = true;
@@ -71,15 +73,23 @@ document.addEventListener("keydown", (e) => {
 
 function checkLoseCondition() {
     if (gameData.progress >= 100) {
-        console.log("Žaidėjas pralaimėjo");
+        sounds.wrongWord.play();
+        gameData.progress = 0;
+        renderNewWord();
+        drawProgressBar();
     }
 }
 
 function checkWinCondition() {
     for (let letterElement of UI.wordElement.childNodes) {
-        if (letterElement.innerHTML === "")
+        if (letterElement.innerHTML === "") {
             return;
+        }
     }
+    sounds.correctWord.play();
+    gameData.progress = 0;
+    renderNewWord();
+    drawProgressBar();
 
     console.log("Žodis atspėtas!");
     // Įdėjau papildomą logiką naujo žodžio sugeneravimui
