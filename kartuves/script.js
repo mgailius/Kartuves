@@ -8,14 +8,14 @@ const gameData = {
     }
 };
 
-// Math.random(0.5) = 1
-// Math.random(2.1) = 2
-// Math.floor(2.8) = 2
-// Math.ceil(2.1) = 3
-
 const UI = {
     wordElement: document.querySelector(".word"),
     progressBar: document.querySelector(".bar")
+}
+
+const sounds = {
+    clickSound: new Audio('sounds/clickSound.wav'),
+    correctSound: new Audio('sounds/correctSound.mp3')
 }
 
 function generateLetters() {
@@ -51,15 +51,16 @@ document.addEventListener("keydown", (e) => {
 
         // Jei žmogus atspėjo raidę
         if (letter === wordLetter) {
+            sounds.correctSound.play();
             console.log(`Žaidėjas atspėjo raidę ${i} pozicijoje`);
-
-            UI.wordElement.childNodes[i].innerHTML = letter;
+            UI.wordElement.childNodes[i].innerHTML = letter; 
             letterFound = true;
         }
     }
 
     // Patikriname, ar nebuvo rasta nei viena raidė
     if (letterFound === false) {
+        sounds.clickSound.play();
         console.log("Pridedame žmogui baudos taškų!");
         addProgress(15);
     }
