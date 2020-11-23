@@ -14,20 +14,33 @@
 </head>
 
 <body>
-    <div class="word"></div>
-    <div class="progressBar">
-        <div class="bar"></div>
-    </div>
-    <div class="playerStats">
-        <div class="guessedWordsCounter">
-            <img src="images/check.svg" alt="checkmark">
-            <div class="guessedWords">3/10</div>
+        <div class="word"></div>
+        <div class="progressBar">
+            <div class="bar"></div>
         </div>
-        <div class="livesCounter">
-            <img src="images/heart.svg" alt="heart">
-            <div class="lives">5</div>
+        <div class="playerStats">
+            <div class="guessedWordsCounter">
+                <img src="images/check.svg" alt="checkmark">
+                <div class="guessedWords">3/10</div>
+            </div>
+            <div class="livesCounter">
+                <img src="images/heart.svg" alt="heart">
+                <div class="lives">5</div>
+            </div>
         </div>
-    </div>
+        <div class="levels">
+            <div onClick="switchLevel(this)" class="level easy">Lengvas</div>
+            <div onClick="switchLevel(this)" class="active level normal">Normalus</div>
+            <div onClick="switchLevel(this)" class="level hard">Sunkus</div>
+        </div>
+        <div class="outOfLives">
+            <img src="images/failed.svg" alt="failed">
+            <p>Baigėsi gyvybės</p>
+            <div class="cta">
+                <div class="ctaButton restart">Iš naujo</div>
+                <div class="ctaButton exit"><a href="https://flukeout.github.io/">Baigti</a></div>
+            </div>
+        </div>
 </body>
 
 </html>

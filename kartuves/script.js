@@ -1,5 +1,6 @@
 const gameData = {
     currentWord: "",
+    difficulty: 20,
     progress: 0,
     lives: 5,
     guessed: 0,
@@ -16,14 +17,28 @@ const gameData = {
         this.lives = 5;
         this.progress = 0;
         this.guessed = 0;
+        for (let word of this.usedWords) {
+            this.possibleWords.push(word)
+        }
+        this.usedWords = [];
     }
 };
+
+const banners = {
+    outOfLives: document.querySelector(".outOfLives")
+}
 
 const UI = {
     wordElement: document.querySelector(".word"),
     progressBar: document.querySelector(".bar"), 
     lives: document.querySelector(".lives"),
-    guessedWords: document.querySelector(".guessedWords")
+    guessedWords: document.querySelector(".guessedWords"),
+    levels: document.querySelector(".levels"),
+    levelEasy: document.querySelector(".easy"),
+    levelNormal: document.querySelector(".normal"),
+    levelHard: document.querySelector(".hard"),
+    restart: document.querySelector(".restart"),
+    exit: document.querySelector(".exit"),
 }
 
 const sounds = {
@@ -32,6 +47,22 @@ const sounds = {
     wrongWord: new Audio('sounds/wrongWord.wav'),
     correctWord: new Audio('sounds/correctWord.wav')
 }
+
+function switchLevel(element) {
+    for (let level of UI.levels.children) {
+        level.classList.remove("active");
+    }
+    element.classList.add("active");
+    if (element.classList.contains("easy")) {
+        gameData.difficulty = 10;
+    } else if (element.classList.contains("normal")) {
+        gameData.difficulty = 20;
+    } else {
+        gameData.difficulty = 40;
+    }
+    gameData.reset();
+    initGame();
+};
 
 function generateLetters() {
     UI.wordElement.innerHTML = "";
@@ -104,7 +135,7 @@ document.addEventListener("keydown", (e) => {
     if (letterFound === false) {
         sounds.clickSound.play();
         console.log("Pridedame žmogui baudos taškų!");
-        addProgress(10);
+        addProgress(gameData.difficulty);
     }
 
     checkLoseCondition();
@@ -125,6 +156,7 @@ function checkLoseCondition() {
         gameData.progress = 0;
         gameData.lives--;
         if(gameData.lives == 0) {
+            showOutOfLives();
             gameData.reset();
             initGame();
         } else {
@@ -165,4 +197,14 @@ function addProgress(progressAmount) {
 function renderNewWord() {
     gameData.chooseRandomWord();
     generateLetters();
+}
+
+UI.restart.addEventListener("click", hideOutOfLives)
+
+function hideOutOfLives() {
+    banners.outOfLives.classList.remove("outOfLivesActive");
+}
+
+function showOutOfLives() {
+    banners.outOfLives.classList.add("outOfLivesActive");
 }

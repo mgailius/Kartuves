@@ -1,12 +1,10 @@
 body {
     font-family: 'Montserrat', sans-serif;
     font-weight: 200;
-    background: #C9D6FF;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #E2E2E2, #C9D6FF);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #fff;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
 }
 
 .word {
@@ -18,12 +16,12 @@ body {
 }
 
 .word div {
-    color: #fff;
+    color: #000;
     font-size: 90px;
     margin-left: 10px;
     margin-right: 10px;
     width: 90px;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #000;
     text-align: center;
     height: 100px;
     text-transform: uppercase;
@@ -31,20 +29,20 @@ body {
 
 .progressBar {
     width: 600px;
-    border: 2px solid #fff;
+    border: 2px solid #000;
     height: 30px;
     margin: auto;
     margin-top: 100px;
+    border-radius: 30px;
+    overflow: hidden;
 }
 
 .progressBar .bar {
     height: 100%;
-    background-color: #fff;
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 50%;
-    transition: all 0.5s cubic-bezier(1,-0.12,.69,1.05);
+    transition: all 400ms cubic-bezier(1,-0.12,.69,1.05);
 }
 
 .playerStats {
@@ -65,3 +63,92 @@ body {
     margin-right: 10px;
     height: 20px;
 }
+
+.levels {
+    max-width: 400px;
+    margin: 100px auto 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.level {
+    font-weight: 500;
+    width: 120px;
+    padding: 20px;
+    background-color: brown;
+    flex: 1fr;
+    text-align: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.level:hover {transform: translateY(-2px);}
+
+.level.easy {background-color: #2be253;}
+.level.normal {background-color:#ffd549;}
+.level.hard {background-color: #ff4242;}
+
+.level.easy.active {box-shadow: 0 5px 0 white, 0 10px 0 #2be253;}
+.level.normal.active {box-shadow: 0 5px 0 white, 0 10px 0 #ffd549;}
+.level.hard.active {box-shadow: 0 5px 0 white, 0 10px 0 #ff4242;}
+
+/* POPUPS */
+
+.outOfLives {
+    position: absolute;
+    width: 1000px;
+    height: 600px;
+    background-color: #ececec;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-weight: 500;
+    transition: 200ms;
+}
+
+.outOfLivesActive {
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+}
+
+.outOfLives img {
+    height: 200px;
+    display: block;
+    margin: 100px auto 0;
+}
+
+.outOfLives p {
+    font-size: 32px;
+    margin-top: 60px;
+    text-transform: uppercase;
+}
+
+.cta {
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+    margin: 60px auto 0;
+    justify-content: space-between;
+}
+
+.ctaButton {
+    width: 120px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+.ctaButton a {
+    display: block;
+    padding: 20px;
+}
+
+.ctaButton:hover {
+    transform: translateY(-2px);
+}
+
+.cta .restart {background-color: #ffd549;}
+.cta .exit {background-color: #ff4242; padding: 0;}
