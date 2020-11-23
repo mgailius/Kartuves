@@ -1,9 +1,10 @@
 const gameData = {
-    currentWord: "darbas",
+    currentWord: "",
     progress: 0,
     lives: 5,
     guessed: 0,
     possibleWords: ["obuolys", "bitas", "saldainis", "monitorius", "sofa"],
+    usedWords: [],
     chooseRandomWord() {
         const randomIndex = Math.floor(Math.random() * this.possibleWords.length);
         this.currentWord = this.possibleWords[randomIndex];
@@ -45,7 +46,7 @@ function drawProgressBar() {
 }
 
 function updatePlayerInfo() {
-    UI.guessedWords.innerHTML = `${gameData.guessed} / ${gameData.possibleWords.length}`;
+    UI.guessedWords.innerHTML = `${gameData.guessed} / ${gameData.possibleWords.length + gameData.usedWords.length}`;
     UI.lives.innerHTML = `${gameData.lives}`
 }
 
@@ -89,6 +90,14 @@ document.addEventListener("keydown", (e) => {
     checkWinCondition();
 });
 
+function removeWord() {
+    const wordIndex = gameData.possibleWords.indexOf(gameData.currentWord);
+    gameData.usedWords.push(gameData.currentWord);
+    gameData.possibleWords.splice(wordIndex, 1);
+    console.log(gameData.possibleWords);
+    console.log(gameData.usedWords);
+}
+
 function checkLoseCondition() {
     if (gameData.progress >= 100) {
         sounds.wrongWord.play();
@@ -98,6 +107,7 @@ function checkLoseCondition() {
             gameData.reset();
             initGame();
         } else {
+            removeWord();
             updatePlayerInfo()
             renderNewWord();
             drawProgressBar();
@@ -114,10 +124,11 @@ function checkWinCondition() {
     sounds.correctWord.play();
     gameData.progress = 0;
     gameData.guessed++;
-    if(gameData.guessed == gameData.possibleWords.length) {
+    if(gameData.guessed == gameData.possibleWords.length + gameData.usedWords.length) {
         gameData.reset();
         initGame();
     } else {
+        removeWord();
         updatePlayerInfo()
         renderNewWord();
         drawProgressBar();
