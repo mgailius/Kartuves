@@ -4,7 +4,7 @@ const gameData = {
     progress: 0,
     lives: 5,
     guessed: 0,
-    possibleWords: ["obuolys", "bitas", "saldainis", "monitorius", "sofa"],
+    possibleWords: ["lempa", "bitas", "knyga", "spalva", "elementas", "naktis", "medis", "ugnis", "laikas", "kilimas"],
     usedWords: [],
     chooseRandomWord() {
         if (this.possibleWords.length > 0) {
