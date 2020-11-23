@@ -53,7 +53,9 @@ const sounds = {
     clickSound: new Audio('sounds/clickSound.wav'),
     correctLetter: new Audio('sounds/correctLetter.mp3'),
     wrongWord: new Audio('sounds/wrongWord.wav'),
-    correctWord: new Audio('sounds/correctWord.wav')
+    correctWord: new Audio('sounds/correctWord.wav'),
+    gameOver: new Audio('sounds/gameOver.wav'),
+    winSound: new Audio('sounds/winSound.wav')
 }
 
 function switchLevel(element) {
@@ -164,6 +166,7 @@ function checkLoseCondition() {
         gameData.progress = 0;
         gameData.lives--;
         if(gameData.lives == 0) {
+            sounds.gameOver.play();
             showOutOfLives();
             gameData.reset();
             initGame();
@@ -216,6 +219,7 @@ banners.restartGame.addEventListener("click", hideBanner);
 
 function showOutOfLives() {banners.outOfLives.classList.add("outOfLivesActive");}
 function showGameOver() {
+    sounds.winSound.play();
     banners.gameOver.classList.add("gameOverActive");
     banners.finalWordCount.innerHTML = `Atspėjai ${gameData.guessed} iš ${gameData.possibleWords.length + gameData.usedWords.length} žodžių`
 }
