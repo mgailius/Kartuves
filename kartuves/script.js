@@ -43,6 +43,27 @@ function generateLetters() {
 
 function drawProgressBar() {
     UI.progressBar.style.width = `${gameData.progress}%`;
+    if(gameData.progress <= 10) {
+        UI.progressBar.style.backgroundColor = "#2be253"
+    } else if (gameData.progress <= 20) {
+        UI.progressBar.style.backgroundColor = "#62e22b"
+    } else if (gameData.progress <= 30) {
+        UI.progressBar.style.backgroundColor = "#bee22b"
+    } else if (gameData.progress <= 40) {
+        UI.progressBar.style.backgroundColor = "#e2e22b"
+    } else if (gameData.progress <= 50) {
+        UI.progressBar.style.backgroundColor = "#e2c72b"
+    } else if (gameData.progress <= 60) {
+        UI.progressBar.style.backgroundColor = "#e2a22b"
+    } else if (gameData.progress <= 70) {
+        UI.progressBar.style.backgroundColor = "#e27d2b"
+    } else if (gameData.progress <= 80) {
+        UI.progressBar.style.backgroundColor = "#e25c2b"
+    } else if (gameData.progress <= 90) {
+        UI.progressBar.style.backgroundColor = "#e23d2b"
+    } else if (gameData.progress <= 100) {
+        UI.progressBar.style.backgroundColor = "#e22b2b"
+    }
 }
 
 function updatePlayerInfo() {
