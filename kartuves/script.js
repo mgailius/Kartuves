@@ -7,8 +7,12 @@ const gameData = {
     possibleWords: ["obuolys", "bitas", "saldainis", "monitorius", "sofa"],
     usedWords: [],
     chooseRandomWord() {
-        const randomIndex = Math.floor(Math.random() * this.possibleWords.length);
-        this.currentWord = this.possibleWords[randomIndex];
+        if (this.possibleWords.length > 0) {
+            const randomIndex = Math.floor(Math.random() * this.possibleWords.length);
+            this.currentWord = this.possibleWords[randomIndex];
+        } else {
+            return;
+        }
     },
     loseLife() {
         this.lives--;
@@ -25,7 +29,13 @@ const gameData = {
 };
 
 const banners = {
-    outOfLives: document.querySelector(".outOfLives")
+    outOfLives: document.querySelector(".outOfLives"),
+    gameOver: document.querySelector(".gameOver"),
+    restartLives: document.querySelector(".restartLives"),
+    exitLives: document.querySelector(".exitLives"),
+    restartGame: document.querySelector(".restartGame"),
+    exitGame: document.querySelector(".exitGame"),
+    finalWordCount: document.querySelector(".finalWordCount")
 }
 
 const UI = {
@@ -37,8 +47,6 @@ const UI = {
     levelEasy: document.querySelector(".easy"),
     levelNormal: document.querySelector(".normal"),
     levelHard: document.querySelector(".hard"),
-    restart: document.querySelector(".restart"),
-    exit: document.querySelector(".exit"),
 }
 
 const sounds = {
@@ -161,9 +169,7 @@ function checkLoseCondition() {
             initGame();
         } else {
             removeWord();
-            updatePlayerInfo()
-            renderNewWord();
-            drawProgressBar();
+            checkGameOver();
         }
     }
 }
@@ -177,11 +183,17 @@ function checkWinCondition() {
     sounds.correctWord.play();
     gameData.progress = 0;
     gameData.guessed++;
-    if(gameData.guessed == gameData.possibleWords.length + gameData.usedWords.length) {
+    removeWord();
+    checkGameOver();
+}
+
+function checkGameOver() {
+    console.log(gameData.possibleWords.length)
+    if(gameData.possibleWords.length == 0 || gameData.guessed == gameData.possibleWords.length + gameData.usedWords.length) {
+        showGameOver();
         gameData.reset();
         initGame();
     } else {
-        removeWord();
         updatePlayerInfo()
         renderNewWord();
         drawProgressBar();
@@ -199,12 +211,17 @@ function renderNewWord() {
     generateLetters();
 }
 
-UI.restart.addEventListener("click", hideOutOfLives)
+banners.restartLives.addEventListener("click", hideBanner);
+banners.restartGame.addEventListener("click", hideBanner);
 
-function hideOutOfLives() {
+function showOutOfLives() {banners.outOfLives.classList.add("outOfLivesActive");}
+function showGameOver() {
+    banners.gameOver.classList.add("gameOverActive");
+    banners.finalWordCount.innerHTML = `Atspėjai ${gameData.guessed} iš ${gameData.possibleWords.length + gameData.usedWords.length} žodžių`
+}
+
+function hideBanner() {
+    banners.gameOver.classList.remove("gameOverActive");
     banners.outOfLives.classList.remove("outOfLivesActive");
 }
 
-function showOutOfLives() {
-    banners.outOfLives.classList.add("outOfLivesActive");
-}

@@ -95,7 +95,7 @@ body {
 
 /* POPUPS */
 
-.outOfLives {
+.outOfLives, .gameOver {
     position: absolute;
     width: 1000px;
     height: 600px;
@@ -108,19 +108,19 @@ body {
     transition: 200ms;
 }
 
-.outOfLivesActive {
+.outOfLivesActive, .gameOverActive {
     left: 50%;
     top: 25%;
     transform: translate(-50%, -50%);
 }
 
-.outOfLives img {
+.outOfLives img, .gameOver img {
     height: 200px;
     display: block;
     margin: 100px auto 0;
 }
 
-.outOfLives p {
+.outOfLives p, .gameOver p {
     font-size: 32px;
     margin-top: 60px;
     text-transform: uppercase;
@@ -150,5 +150,5 @@ body {
     transform: translateY(-2px);
 }
 
-.cta .restart {background-color: #ffd549;}
-.cta .exit {background-color: #ff4242; padding: 0;}
+.cta .restartLives, .cta .restartGame {background-color: #ffd549;}
+.cta .exitLives, .cta .exitGame {background-color: #ff4242; padding: 0;}
