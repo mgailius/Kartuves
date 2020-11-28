@@ -123,33 +123,31 @@ initGame();
 // Kai žmogus paspaudžia klaviatūros mygtuką
 document.addEventListener("keydown", (e) => {
     const letter = e.key;
-
-    console.log(letter);
-
     let letterFound = false;
+    if (e.key >= "a" && e.key <= "z") {   
+        // Patikrinti, ar tokia raidė egzistuoja žodyje
+        for (let i = 0; i < gameData.currentWord.length; i++) {
+            const wordLetter = gameData.currentWord[i];
 
-    // Patikrinti, ar tokia raidė egzistuoja žodyje
-    for (let i = 0; i < gameData.currentWord.length; i++) {
-        const wordLetter = gameData.currentWord[i];
-
-        // Jei žmogus atspėjo raidę
-        if (letter === wordLetter) {
-            sounds.correctLetter.play();
-            console.log(`Žaidėjas atspėjo raidę ${i} pozicijoje`);
-            UI.wordElement.childNodes[i].innerHTML = letter; 
-            letterFound = true;
+            // Jei žmogus atspėjo raidę
+            if (letter === wordLetter) {
+                sounds.correctLetter.play();
+                console.log(`Žaidėjas atspėjo raidę ${i} pozicijoje`);
+                UI.wordElement.childNodes[i].innerHTML = letter; 
+                letterFound = true;
+            }
         }
-    }
 
-    // Patikriname, ar nebuvo rasta nei viena raidė
-    if (letterFound === false) {
-        sounds.clickSound.play();
-        console.log("Pridedame žmogui baudos taškų!");
-        addProgress(gameData.difficulty);
-    }
+        // Patikriname, ar nebuvo rasta nei viena raidė
+        if (letterFound === false) {
+            sounds.clickSound.play();
+            console.log("Pridedame žmogui baudos taškų!");
+            addProgress(gameData.difficulty);
+        }
 
-    checkLoseCondition();
-    checkWinCondition();
+        checkLoseCondition();
+        checkWinCondition();
+    }
 });
 
 function removeWord() {
